@@ -7,9 +7,19 @@ function saveUrlInfoToLocal(url, copyright, end_date) {
 }
 
 export function renderNewWallpaper(url, copyright) {
-  const imgElem = $(`<img src="${url}" alt="wallpaper" id="wallpaper"/>`);
+  // 从缓存中读取此url的数据
+  caches.open("wallpaper").then((data) => {
+    data.match(url).then((imgCache) => {
+      console.log(imgCache);
+    });
+  });
+  // const imgElem = $(`<img src="${url}" alt="wallpaper" id="wallpaper"/>`);
+  const imgElem = $("#wallpaper");
+  imgElem.attr("src", url);
   imgElem.on("load", (e) => {
+    console.log("wallpaper loaded.");
     e.target.style.display = "block";
+    $("#intro").empty();
     $("#intro").append(copyright);
   });
   $("#container").append(imgElem);
@@ -45,27 +55,38 @@ function setWallpaper() {
   } else {
     console.log("获取每日壁纸渲染");
     $.ajax({
-      url: "https://bing.biturl.top/",
+      url: "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN",
       cache: true,
       headers: {
         "cache-control": "max-age=691200",
       },
-    }).done(({ url, copyright, end_date }) => {
-      saveUrlInfoToLocal(url, copyright, end_date);
+    }).done(({ images }) => {
+      const { url, copyright, enddate } = images[0];
+      saveUrlInfoToLocal(url, copyright, enddate);
       renderNewWallpaper(url, copyright);
     });
   }
+}
+
+function saveImgToLocalstorage(url) {}
+async function setImgCache(url) {
+  const wallpaperCache = await caches.open("wallpaper");
+  wallpaperCache.delete(localStorage.getItem("url"));
+  wallpaperCache.add(url);
 }
 
 export function changeWallpaper() {
   $.ajax({
     url: "http://bing.creepersan.com/api/v1/random",
   })
-    .done((resp) => {
+    .done(async (resp) => {
       const { flag, data } = JSON.parse(resp);
       if (flag === 200) {
         const { title, img_url } = data[0];
         const url = `https://bing.creepersan.com${img_url}`;
+        // 创建缓存
+        setImgCache(url);
+        // saveImgToLocalstorage(url);
         saveUrlInfoToLocal(url, title);
         // 获取新的壁纸，则更新使用随机壁纸的时间
         localStorage.setItem("date", getCurrentDateStr());
