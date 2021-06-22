@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>New Tab</title>
-  <link rel="stylesheet" href="app.css" />
+  <link rel="stylesheet" href="./css/app.css" />
+  <script src="./js/jquery.min.js"></script>
 </head>
 <body>
-  <div class="container">
+  <div id="weather"></div>
+  <div id="container">
     <p id="day" class="day"></p>
     <div id="clock" class="clock"></div>
-
-    <hr class="divider" />
-
-    <p class="title">Chrome Extension is Ready!</p>
-    <p class="subtitle">Start by updating <code>index.html</code></p>
+    <div id="divider"></div>
+    <section>
+      <small id="intro"></small>
+    </section>
   </div>
+  <!-- <img src="./icons/flash.png" alt="flash" id="flash"> -->
+  <span id="flash">👀</span>
   <script src="app.js"></script>
 
   <!--
