@@ -36,9 +36,20 @@
         </section>
       </form>
     </section>
-    <!-- <section>
-
-    </section> -->
+    <section id="search">
+      <section id="item">
+        <label for="use_search">显示搜索框</label>
+        <input type="checkbox" name="use_search" id="use_search">
+      </section>
+      <section id="item">
+        <label for="engine">搜索引擎</label>
+        <input type="text" name="engine" id="engine">
+        <datalist id="engine_list">
+          <option value="google">google</option>
+          <option value="bing">必应</option>
+        </datalist>
+      </section>
+    </section>
   </main>
   <script src="./options.js"></script>
 </body>
