@@ -46,7 +46,10 @@
   "scripts": {
     "dev": "webpack-dev-server",
     "test": "echo 'skip test...'",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "lint": "yarn run lint-eslint && yarn run lint-stylelint",
+    "lint-eslint": "eslint -c .eslintrc.js --ext .ts,.tsx,.js {src,scripts}/**/*.{ts,tsx,js}",
+    "lint-stylelint": "stylelint --config .stylelintrc.json src/**/*.scss --syntax scss"
   },
   "lint-staged": {
     "*.{ts,tsx,js}": [
